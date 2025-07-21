@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #define PERIPH_BASE       0x40000000
 #define AHB1_OFFSET       0x00020000
 #define AHB1_BASE         (PERIPH_BASE + AHB1_OFFSET)
@@ -15,13 +17,17 @@
 
 int main(void) {
     RCC_AHB1ENR |=  (1 << 0);             // Enable GPIOA clock
-    GPIOA_MODER |=  (1 << 10);            // Set PA5 as output
-    GPIOA_MODER &=~ (1 << 11);
+    GPIOA_MODER |=  (1 << 10);           // Set PA5 as output
+    GPIOA_MODER &= ~(1 << 11); 
+
+    GPIOA_MODER |=  (1 << 12);           // Set PA5 as output
+    GPIOA_MODER &= ~(1 << 13);
 
     while (1) {
-        GPIOA_ODR |= (1 << 5);          // Toggle PA5
-        for(int i = 0; i < 1000000; i++){}
-        GPIOA_ODR &=~ (1 << 5);          // Toggle PA5
-        for(int i = 0; i < 1000000; i++){}
+        GPIOA_ODR |= (1 << 6);          // Toggle PA5
+        GPIOA_ODR |= (1 << 5); 
+        // for(uint32_t i = 0; i < 10000000000; i++){;}
+        // GPIOA_ODR &=~ (1 << 5);          // Toggle PA5
+        // for(uint32_t i = 0; i < 10000000000; i++){;}
     }
 }
