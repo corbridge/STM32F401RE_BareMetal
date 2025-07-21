@@ -13,16 +13,15 @@
 #define GPIOA_ODR         (*(volatile unsigned int *)(GPIOA_BASE + 0x14))
 #define GPIOA_BSRR        (*(volatile unsigned int *)(GPIOA_BASE + 0x18))
 
-void delay(volatile int time) {
-    while (time--);
-}
-
 int main(void) {
     RCC_AHB1ENR |=  (1 << 0);             // Enable GPIOA clock
     GPIOA_MODER |=  (1 << 10);            // Set PA5 as output
     GPIOA_MODER &=~ (1 << 11);
 
     while (1) {
-        GPIOA_BSRR |= (1 << 5);          // Toggle PA5
+        GPIOA_ODR |= (1 << 5);          // Toggle PA5
+        for(int i = 0; i < 1000000; i++){}
+        GPIOA_ODR &=~ (1 << 5);          // Toggle PA5
+        for(int i = 0; i < 1000000; i++){}
     }
 }

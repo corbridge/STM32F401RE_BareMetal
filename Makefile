@@ -1,14 +1,16 @@
-CC = arm-none-eabi-gcc
-CFLAGS = -mcpu=cortex-m4 -mthumb -nostdlib -nostartfiles -Wall -Wextra -O0
-LDSCRIPT = linker.ld
 
-all: main.elf
 
-main.elf: startup.s main.c linker.ld
-	$(CC) $(CFLAGS) -T$(LDSCRIPT) startup.s main.c -o main.elf
+main.o : main.c
+	arm-none-eabi-gcc -c -mcpu=cortex-m4 -mthumb -std=gnu11 main.c -o main.o
+	
+startup.o : startup.c
+	arm-none-eabi-gcc -c -mcpu=cortex-m4 -mthumb -std=gnu11 startup.c -o startup.o
+	
+main.elf : main.o startup.o
+	arm-none-eabi-gcc -nostdlib -T linker.ld *.o -o main.elf -Wl,-Map=main.map
 
-flash: main.elf
-	st-flash write main.elf 0x8000000
+main.bin : main.elf
+	arm-none-eabi-objcopy -O binary main.elf main.bin
 
 clean:
-	rm -f *.elf *.bin *.hex
+	del	-f *.o *.elf *.map
