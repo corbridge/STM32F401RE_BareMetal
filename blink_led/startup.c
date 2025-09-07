@@ -176,4 +176,5 @@ void Reset_Handler(void) {
         *p_dest_mem++ = 0;
     }
     main();
+    while(1);
 }

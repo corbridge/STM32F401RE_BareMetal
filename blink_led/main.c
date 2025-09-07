@@ -15,17 +15,23 @@
 #define GPIOA_ODR         (*(volatile unsigned int *)(GPIOA_BASE + 0x14))
 #define GPIOA_BSRR        (*(volatile unsigned int *)(GPIOA_BASE + 0x18))
 
+
 int main(void) {
     RCC_AHB1ENR |=  (1 << 0);             // Enable GPIOA clock
     GPIOA_MODER |=  (1 << 10);           // Set PA5 as output
     GPIOA_MODER &= ~(1 << 11); 
 
-    GPIOA_MODER |=  (1 << 12);           // Set PA5 as output
-    GPIOA_MODER &= ~(1 << 13);
+    GPIOA_MODER &= ~((3 << 10) | (3 << 12)); // Clear mode bits for PA5 & PA6
+    GPIOA_MODER |=  ((1 << 10) | (1 << 12)); // Set PA5 & PA6 to output mode
 
     while (1) {
         GPIOA_ODR |= (1 << 6);          // Toggle PA5
         GPIOA_ODR |= (1 << 5); 
+        for (volatile uint32_t i = 0; i < 500000; i++);
+        GPIOA_ODR &=~ (1 << 5); 
+        GPIOA_ODR &=~ (1 << 6); 
+        for (volatile uint32_t i = 0; i < 500000; i++);
+
         // for(uint32_t i = 0; i < 10000000000; i++){;}
         // GPIOA_ODR &=~ (1 << 5);          // Toggle PA5
         // for(uint32_t i = 0; i < 10000000000; i++){;}
