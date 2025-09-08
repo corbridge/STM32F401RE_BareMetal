@@ -27,10 +27,10 @@ int main(void) {
     while (1) {
         GPIOA_ODR |= (1 << 6);          // Toggle PA5
         GPIOA_ODR |= (1 << 5); 
-        for (volatile uint32_t i = 0; i < 500000; i++);
-        GPIOA_ODR &=~ (1 << 5); 
-        GPIOA_ODR &=~ (1 << 6); 
-        for (volatile uint32_t i = 0; i < 500000; i++);
+        // for (volatile uint32_t i = 0; i < 500000; i++);
+        // GPIOA_ODR &=~ (1 << 5); 
+        // GPIOA_ODR &=~ (1 << 6); 
+        // for (volatile uint32_t i = 0; i < 500000; i++);
 
         // for(uint32_t i = 0; i < 10000000000; i++){;}
         // GPIOA_ODR &=~ (1 << 5);          // Toggle PA5

@@ -1,16 +1,16 @@
 
 
-main.o : main.c
-	arm-none-eabi-gcc -O0 -c -mcpu=cortex-m4 -mthumb -std=gnu11 main.c -o main.o
+build/main.o : main.c
+	arm-none-eabi-gcc -O0 -c -mcpu=cortex-m4 -mthumb -std=gnu11 main.c -o build/main.o
 	
-startup.o : startup.c
-	arm-none-eabi-gcc -O0 -c -mcpu=cortex-m4 -mthumb -std=gnu11 startup.c -o startup.o
+build/startup.o : startup.c
+	arm-none-eabi-gcc -O0 -c -mcpu=cortex-m4 -mthumb -std=gnu11 startup.c -o build/startup.o
 	
-main.elf : main.o startup.o
-	arm-none-eabi-gcc -O0 -nostdlib -T linker.ld *.o -o main.elf -Wl,-Map=main.map
+main.elf : build/main.o build/startup.o
+	arm-none-eabi-gcc -O0 -nostdlib -T linker.ld *.o -o build/main.elf -Wl,-Map=build/main.map
 
-main.bin : main.elf
-	arm-none-eabi-gcc -O0 -O binary main.elf main.bin
+main.bin : build/main.elf
+	arm-none-eabi-gcc -O0 -O binary build/main.elf build/main.bin
 
 clean:
-	del	-f *.o *.elf *.map
+	rm -r build/*.o *.elf *.map
