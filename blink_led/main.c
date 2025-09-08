@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stdio.h>
 
 #define PERIPH_BASE       0x40000000
 #define AHB1_OFFSET       0x00020000
@@ -27,10 +28,19 @@ int main(void) {
     while (1) {
         GPIOA_ODR |= (1 << 6);          // Toggle PA5
         GPIOA_ODR |= (1 << 5); 
-        // for (volatile uint32_t i = 0; i < 500000; i++);
-        // GPIOA_ODR &=~ (1 << 5); 
-        // GPIOA_ODR &=~ (1 << 6); 
-        // for (volatile uint32_t i = 0; i < 500000; i++);
+        int count = (10 * 48) / 4;
+
+        for (volatile uint32_t i = 0; i < 500000000; i++)
+        {
+            printf("");
+        }
+        GPIOA_ODR &=~ (1 << 5); 
+        GPIOA_ODR &=~ (1 << 6); 
+        for (volatile uint32_t i = 0; i < 500000000; i++);
+        for (volatile uint32_t i = 0; i < 500000000; i++)
+        {
+            printf("");
+        }
 
         // for(uint32_t i = 0; i < 10000000000; i++){;}
         // GPIOA_ODR &=~ (1 << 5);          // Toggle PA5
